@@ -235,3 +235,87 @@ Shopify:
 Internationalization:
 
 - [Internationalizing your app](https://shopify.dev/docs/apps/best-practices/internationalization/getting-started)
+
+
+---
+
+## Production Deployment (DigitalOcean Ubuntu 24.04 / Node.js 22)
+
+This app is configured to run on dedicated port **`3001`**, completely isolated from existing applications running on port `3000` (e.g. `store-analytics`).
+
+### 1. Clone & Install Dependencies
+
+```bash
+git clone https://github.com/sadampinakkaa/partfinder.git /var/www/partfinder
+cd /var/www/partfinder
+npm ci
+```
+
+### 2. Configure Environment Variables
+
+Create `.env` from `.env.example`:
+
+```bash
+cp .env.example .env
+nano .env
+```
+
+Configure:
+- `PORT=3001`
+- `NODE_ENV=production`
+- `SHOPIFY_API_KEY=5ec5b77b080f4bb0370b32a2630f9ec3`
+- `SHOPIFY_API_SECRET=<your-client-secret>`
+- `SHOPIFY_APP_URL=https://partfinder.yourdomain.com`
+- `SCOPES=write_products,read_products,read_themes`
+- `DATABASE_URL=file:./dev.sqlite`
+
+### 3. Database Setup & Production Build
+
+```bash
+# Push schema and generate Prisma client
+npm run setup
+
+# Build production assets
+npm run build
+```
+
+*(Note: To sync existing fitment SQLite data to production, copy `dev.sqlite` to `/var/www/partfinder/prisma/dev.sqlite`)*
+
+### 4. Process Management with PM2
+
+```bash
+# Start with PM2
+pm2 start ecosystem.config.cjs
+
+# Save PM2 process list across system reboots
+pm2 save
+```
+
+### 5. Nginx Reverse Proxy Configuration
+
+Create `/etc/nginx/sites-available/partfinder.conf`:
+
+```nginx
+server {
+    server_name partfinder.yourdomain.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Enable site & reload Nginx:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/partfinder.conf /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+sudo certbot --nginx -d partfinder.yourdomain.com
+```
