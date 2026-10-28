@@ -1,0 +1,20 @@
+{% comment %}
+  Product Fit Finder by Pinakkaa - App Embed
+  Enables the fitment search widget and cascading scripts across the Shopify storefront.
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'fit-finder-widget.css' | asset_url }}">
+<script src="{{ 'fit-finder-widget.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Product Fit Finder",
+  "target": "body",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "🎨 To customize widget colors, background, titles, dropdown labels, and buttons, please open Product Fit Finder by Pinakkaa in your Shopify admin and switch to the 'Customize' tab."
+    }
+  ]
+}
+{% endschema %}

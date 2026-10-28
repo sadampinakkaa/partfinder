@@ -1,0 +1,724 @@
+/* Modern Soft Professional SaaS Style - Product Fit Finder by Pinakkaa */
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #a855f7 100%);
+  --secondary-gradient: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+  --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --subtle-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+
+  --card-bg: #ffffff;
+  --body-bg: #f8fafc;
+  --surface-subtle: #f1f5f9;
+
+  --text-main: #0f172a;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+
+  --border-color: #e2e8f0;
+  --border-focus: #6366f1;
+  --border-subtle: #f1f5f9;
+
+  --primary-color: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #e0e7ff;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 20px -2px rgba(99, 102, 241, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+  --shadow-hover: 0 12px 28px -4px rgba(99, 102, 241, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+  --shadow-btn: 0 4px 14px rgba(79, 70, 229, 0.25);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-main);
+  background: var(--body-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   CLEAN MODERN SAAS HEADER
+   ========================================================================== */
+.pff-header-banner {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 14px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  position: relative;
+  z-index: 50;
+}
+
+.pff-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pff-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.pff-brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pff-brand-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pff-brand-name .pff-pro-tag {
+  background: var(--primary-gradient);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pff-brand-sub {
+  font-size: 0.75rem;
+  color: #6366f1;
+  margin-top: 1px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.pff-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  border: 1px solid #e2e8f0;
+}
+
+.pff-avatar-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+}
+
+.pff-shop-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* ==========================================================================
+   NAVIGATION BAR (Soft Modern Pill Tabs)
+   ========================================================================== */
+.pff-nav-bar {
+  display: flex;
+  gap: 6px;
+  background: #ffffff;
+  padding: 8px 24px;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+
+.pff-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.pff-nav-link:hover {
+  color: var(--primary-color);
+  background: #f1f5f9;
+}
+
+.pff-nav-link.active {
+  background: var(--primary-gradient);
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+/* ==========================================================================
+   CONTAINER & LAYOUT
+   ========================================================================== */
+.pff-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 20px 50px 20px;
+}
+
+.pff-page-header {
+  margin-bottom: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.pff-page-title-wrap h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.pff-page-title-wrap p {
+  margin: 4px 0 0 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   SOFT SAAS KPI & STAT CARDS
+   ========================================================================== */
+.pff-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.pff-stat-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.pff-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: #cbd5e1;
+}
+
+.pff-stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.pff-stat-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pff-stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.pff-stat-icon-indigo {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.pff-stat-icon-emerald {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.pff-stat-icon-violet {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.pff-stat-icon-sky {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.pff-stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.pff-stat-footer {
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   CARDS & PANELS
+   ========================================================================== */
+.pff-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 22px;
+  overflow: hidden;
+}
+
+.pff-card-header {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+}
+
+.pff-card-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pff-card-subtitle {
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin: 3px 0 0 0;
+  font-weight: 500;
+}
+
+.pff-card-body {
+  padding: 22px;
+  color: #0f172a;
+}
+
+/* ==========================================================================
+   MODERN SOFT GRADIENT BUTTONS
+   ========================================================================== */
+.pff-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+.pff-btn-primary {
+  background: var(--primary-gradient);
+  color: #ffffff;
+  box-shadow: var(--shadow-btn);
+}
+
+.pff-btn-primary:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
+}
+
+.pff-btn-secondary {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.pff-btn-secondary:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.pff-btn-dark {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.pff-btn-dark:hover:not(:disabled) {
+  background: #1e293b;
+}
+
+.pff-btn-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+.pff-btn-danger:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.pff-btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+.pff-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ==========================================================================
+   BADGES & PILLS
+   ========================================================================== */
+.pff-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.pff-badge-premium {
+  background: #ede9fe;
+  color: #6d28d9;
+  border: 1px solid #ddd6fe;
+}
+
+.pff-badge-basic {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.pff-badge-success {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.pff-badge-indigo {
+  background: #e0e7ff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
+}
+
+/* ==========================================================================
+   TABLES (Clean, High Readability)
+   ========================================================================== */
+.pff-table-container {
+  overflow-x: auto;
+}
+
+.pff-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.pff-table th {
+  background: #f8fafc;
+  color: #475569;
+  padding: 12px 18px;
+  font-weight: 700;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.pff-table td {
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border-color);
+  color: #0f172a;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.pff-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* ==========================================================================
+   MODALS
+   ========================================================================== */
+.pff-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 16px;
+}
+
+.pff-modal-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.2);
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+  animation: pffPop 0.15s ease-out;
+}
+
+@keyframes pffPop {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.pff-modal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+}
+
+.pff-modal-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 750;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pff-modal-body {
+  padding: 22px;
+  color: #0f172a;
+}
+
+.pff-modal-footer {
+  padding: 14px 22px;
+  background: #f8fafc;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   FORMS & INPUTS
+   ========================================================================== */
+.pff-form-group {
+  margin-bottom: 16px;
+}
+
+.pff-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.pff-input, .pff-select {
+  width: 100%;
+  padding: 9px 13px;
+  border-radius: var(--radius-md);
+  border: 1px solid #cbd5e1;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pff-input:focus, .pff-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.pff-range-slider {
+  width: 100%;
+  accent-color: #4f46e5;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   ALERTS
+   ========================================================================== */
+.pff-alert {
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.pff-alert-success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.pff-alert-danger {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.pff-alert-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+}
+
+/* ==========================================================================
+   PRICING CARDS
+   ========================================================================== */
+.pff-plan-card {
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-color);
+  padding: 28px;
+  background: #ffffff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pff-plan-card.premium-featured {
+  border-color: #6366f1;
+  background: linear-gradient(180deg, #f5f3ff 0%, #ffffff 40%);
+  box-shadow: 0 10px 25px -3px rgba(99, 102, 241, 0.12);
+}
+
+.pff-plan-badge-top {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: var(--primary-gradient);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
+  text-transform: uppercase;
+}
+
+.pff-plan-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 12px 0 6px 0;
+  letter-spacing: -0.02em;
+}
+
+.pff-plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  flex-grow: 1;
+}
+
+.pff-plan-features li {
+  padding: 8px 0;
+  border-bottom: 1px solid #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 550;
+  color: #334155;
+}
+
+/* Skeleton Pulse Animation */
+.pff-skeleton-pulse {
+  background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+  background-size: 200% 100%;
+  animation: pffShimmer 1.5s infinite;
+}
+
+@keyframes pffShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 768px) {
+  .pff-header-banner {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .pff-container {
+    padding: 16px 12px;
+  }
+
+  .pff-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+// Product Fitment Search Data table
+// (id, year, make, model, collection) with shop isolation and high-performance composite indexes
+model StoreFitmentData {
+  id         Int      @id @default(autoincrement())
+  shop       String
+  year       String
+  make       String
+  model      String
+  collection String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([shop, year, make, model, collection], name: "shop_fitment_record_unique")
+  @@index([shop, year])
+  @@index([shop, year, make])
+  @@index([shop, year, make, model])
+}
+
+// Exactly matches legacy pricing_plans table
+model PricingPlan {
+  id           Int      @id @default(autoincrement())
+  title        String   // "Basic Plan", "Premium Plan"
+  amount       Float    // 0, 9.99
+  currencyCode String   @default("USD")
+  maxLimit     Int      // 100 for Basic, 999999 for Premium
+  planDetails  String
+}
+
+// Exactly matches legacy access_table (store_name, plan, plan_id, test)
+model StoreAccess {
+  id         Int      @id @default(autoincrement())
+  shop       String   @unique
+  plan       Int      @default(1) // 1 = Basic Plan, 2 = Premium Plan
+  planId     String?
+  test       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model ImportHistory {
+  id            Int      @id @default(autoincrement())
+  shop          String
+  fileName      String
+  totalRows     Int      @default(0)
+  successRows   Int      @default(0)
+  duplicateRows Int      @default(0)
+  status        String   @default("COMPLETED")
+  createdAt     DateTime @default(now())
+
+  @@index([shop, createdAt])
+}
+
+// Stores custom widget design settings per store (matches legacy customize.php)
+model WidgetConfig {
+  id               Int      @id @default(autoincrement())
+  shop             String   @unique
+  bgType           String   @default("color") // "color" or "image"
+  bgColor          String   @default("#4338ca")
+  bgImage          String   @default("")
+  textColor        String   @default("#ffffff")
+  title            String   @default("PRODUCT FIT FINDER")
+  subtitle         String   @default("Explore the Perfect Fit for Your Products")
+  alignment        String   @default("center")
+  boxPadding       Int      @default(45)
+  yearPlaceholder  String   @default("SELECT YEAR")
+  makePlaceholder  String   @default("SELECT MAKE")
+  modelPlaceholder String  @default("SELECT MODEL")
+  btnColor         String   @default("#ffffff")
+  btnTextColor     String   @default("#4338ca")
+  submitText       String   @default("FIND PARTS")
+  borderRadius     Int      @default(12)
+  showResetBtn     Boolean  @default(false)
+  resetBtnText     String   @default("RESET")
+  badgeText        String   @default("")
+  borderStyle      String   @default("none")
+  updatedAt        DateTime @updatedAt
+  createdAt        DateTime @default(now())
+}
+
+model FitmentSearchLog {
+  id        Int      @id @default(autoincrement())
+  shop      String
+  year      String
+  make      String
+  model     String
+  createdAt DateTime @default(now())
+
+  @@index([shop, createdAt])
+}

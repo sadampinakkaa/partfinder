@@ -1,0 +1,249 @@
+/* Product Fit Finder by Pinakkaa - Storefront Styles */
+/* Universal Cross-Theme Compatibility (Horizon, Dawn, Refresh, Impulse, Prestige, Sense, etc.) */
+
+/* Universal Section Parent Reset - Forces full width in CSS Grid & Flexbox theme layouts (e.g. Horizon) */
+div[id*="shopify-section"]:has(.widget-wrap),
+div[class*="shopify-section"]:has(.widget-wrap),
+section[id*="shopify-section"]:has(.widget-wrap),
+section[class*="shopify-section"]:has(.widget-wrap),
+.shopify-section:has(.widget-wrap),
+.section:has(.widget-wrap),
+[id*="shopify-section"]:has(.widget-wrap) {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  flex: 1 1 100% !important;
+  grid-column: 1 / -1 !important;
+  box-sizing: border-box !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.widget-wrap {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 32px auto !important;
+  padding: 0 16px !important;
+  display: block !important;
+  clear: both !important;
+}
+
+.gvbar_outer-wrap {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  border-radius: 12px;
+  padding: 45px 24px;
+  background-color: #196c0e; /* Fallback brand color */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Border Accent Variations */
+.gvbar_outer-wrap.pff-border-glow,
+.gvbar_outer-wrap.pff-border-gold {
+  border: 2px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.35), 0 8px 30px rgba(0, 0, 0, 0.18) !important;
+}
+
+.gvbar_outer-wrap.pff-border-subtle {
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.gv-mmy-bar {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+/* Vehicle Fitment Trust Badge */
+.pff-widget-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 6px 18px !important;
+  border-radius: 9999px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  margin: 0 auto 16px auto !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.gv_bar_text {
+  text-align: center;
+  margin-bottom: 24px;
+  width: 100% !important;
+}
+
+#widget-title {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 26px;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+#widget-description {
+  color: #ffffff;
+  opacity: 0.92;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+#gv-mmy {
+  width: 100% !important;
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+.mmy-tab_wrap {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.mmy-tab {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.pff-select-box,
+.ymm-select-box {
+  width: 100% !important;
+  height: 48px !important;
+  padding: 8px 14px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #1e293b !important;
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  outline: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+}
+
+.pff-select-box:focus,
+.ymm-select-box:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+}
+
+.pff-select-box:disabled,
+.ymm-select-box:disabled {
+  background-color: #f1f5f9 !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed !important;
+  border-color: #e2e8f0 !important;
+  opacity: 0.75 !important;
+}
+
+.go-button-wrap {
+  margin-top: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  flex-wrap: wrap !important;
+}
+
+.go-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  font-size: 15px !important;
+  padding: 12px 36px !important;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  color: #4338ca !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+}
+
+.go-btn.disabled {
+  opacity: 0.55 !important;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+.go-btn:hover:not(.disabled) {
+  opacity: 0.92 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Reset Button */
+.pff-btn-reset {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.pff-btn-reset:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+  border-color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Responsive Breakpoint for Mobile Screens */
+@media (max-width: 768px) {
+  .widget-wrap {
+    margin: 20px auto !important;
+    padding: 0 12px !important;
+  }
+
+  .gvbar_outer-wrap {
+    padding: 30px 16px !important;
+  }
+
+  .mmy-tab_wrap {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  #widget-title {
+    font-size: 22px !important;
+  }
+
+  .go-button-wrap {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .go-btn, .pff-btn-reset {
+    width: 100% !important;
+  }
+}

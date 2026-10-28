@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="{{ 'fit-finder-widget.css' | asset_url }}">
+
+<div 
+  class="widget-wrap"
+  data-shop="{{ shop.permanent_domain }}"
+>
+  <div class="gvbar_outer-wrap">
+    <div class="gv-mmy-bar">
+      <div id="widget-badge" class="pff-widget-badge" style="display: none;"></div>
+
+      <div class="gv_bar_text">
+        <h2 id="widget-title">
+          PRODUCT FIT FINDER
+        </h2>
+        <p id="widget-description">
+          Explore the Perfect Fit for Your Products
+        </p>
+      </div>
+
+      <div id="gv-mmy">
+        <div class="mmy-tab_wrap">
+          <div class="year-selector-wrap mmy-tab">
+            <select id="GetYear" class="pff-select-box">
+              <option disabled selected value="">SELECT YEAR</option>
+            </select>
+          </div>
+
+          <div class="make-selector-wrap mmy-tab">
+            <select id="GetMake" class="pff-select-box" disabled>
+              <option disabled selected value="">SELECT MAKE</option>
+            </select>
+          </div>
+
+          <div class="model-selector-wrap mmy-tab">
+            <select id="GetModel" class="pff-select-box" disabled>
+              <option disabled selected value="">SELECT MODEL</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="go-button-wrap">
+          <a
+            href=""
+            data-redirect
+            class="go-btn gv-btn-search button disabled"
+          >
+            FIND PRODUCTS
+          </a>
+          <button
+            type="button"
+            data-reset
+            class="pff-btn-reset"
+            style="display: none;"
+          >
+            RESET
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'fit-finder-widget.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Product Fit Finder",
+  "target": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "🎨 To customize colors, background, titles, dropdown labels, and buttons, please open Product Fit Finder by Pinakkaa in your Shopify admin and switch to the 'Customize' tab."
+    }
+  ]
+}
+{% endschema %}
