@@ -1,4 +1,4 @@
-import { useLoaderData, useFetcher, useSearchParams, Link } from "react-router";
+import { useLoaderData, useSearchParams, Form, useActionData, useNavigation, Link } from "react-router";
 import { useState, useEffect } from "react";
 import { authenticate, PLAN_BASIC } from "../shopify.server.js";
 import { getStorePlan, updateStorePlan } from "../models/fit-finder.server.js";
@@ -34,17 +34,14 @@ export const loader = async ({ request }) => {
       // Confirmed active payment on Shopify
       const activeSub = billingCheck?.appSubscriptions?.[0];
       await updateStorePlan(shop, 2, activeSub?.id || "sub_active", true);
-    } else {
-      // No active payment on Shopify:
-      // If store is currently set to paid plan (2) but has NO active payment and wasn't manually set via dev,
-      // sync it back to Free Plan (1).
+    } else if (!isPaymentSuccess) {
+      // No active payment on Shopify and didn't just return from checkout:
       const current = await getStorePlan(shop);
       if (current.planNumber === 2 && !current.test) {
         await updateStorePlan(shop, 1, null, false);
       }
     }
   } catch (e) {
-    // In local dev without billing
     console.log("[Pricing loader] billing.check info:", e?.message || e);
   }
 
@@ -91,8 +88,11 @@ export const action = async ({ request }) => {
   }
 
   if (planNumber === 2) {
-    // BASIC PLAN ($10 / month)
-    const returnUrl = `${process.env.SHOPIFY_APP_URL || "https://" + shop}/app/pricing?subscribed=true&plan=basic-plan`;
+    // BASIC PLAN ($10 / month) with Shopify Billing
+    const appUrl = process.env.SHOPIFY_APP_URL || `https://${shop}`;
+    const returnUrl = `${appUrl}/app/pricing?subscribed=true&plan=basic-plan`;
+
+    console.log(`[Pricing action] Initiating Shopify billing request for ${shop}, returnUrl: ${returnUrl}`);
 
     try {
       await billing.request({
@@ -102,16 +102,18 @@ export const action = async ({ request }) => {
         returnUrl,
       });
     } catch (err) {
-      if (err instanceof Response) {
+      // Re-throw redirect Responses so Shopify / App Bridge / React Router navigates top window to Shopify Billing
+      if (
+        err instanceof Response ||
+        (err && typeof err === "object" && ("status" in err || "headers" in err))
+      ) {
         throw err;
       }
-      console.error("Billing request error:", err);
-      // Development mode fallback
-      await updateStorePlan(shop, 2, "test_sub_id", true);
+      console.error("[Pricing action] Billing request error:", err);
       return {
-        success: true,
-        planNumber: 2,
-        message: "You have selected Basic Plan! (Development Mode Active)",
+        error:
+          err?.message ||
+          "Failed to initiate Shopify billing. Please verify your Shopify Partner app configuration.",
       };
     }
 
@@ -123,7 +125,8 @@ export const action = async ({ request }) => {
 
 export default function PricingPage() {
   const { shop, plan } = useLoaderData();
-  const fetcher = useFetcher();
+  const actionData = useActionData();
+  const navigation = useNavigation();
   const [searchParams] = useSearchParams();
 
   const [showCelebration, setShowCelebration] = useState(
@@ -131,18 +134,18 @@ export default function PricingPage() {
   );
   const [toast, setToast] = useState(null);
 
-  const isSubmitting = fetcher.state !== "idle";
+  const isSubmitting = navigation.state !== "idle";
 
   useEffect(() => {
-    if (fetcher.data?.message) {
-      setToast({ type: "success", text: fetcher.data.message });
-      if (fetcher.data.planNumber === 2) {
+    if (actionData?.message) {
+      setToast({ type: "success", text: actionData.message });
+      if (actionData.planNumber === 2) {
         setShowCelebration(true);
       }
-    } else if (fetcher.data?.error) {
-      setToast({ type: "danger", text: fetcher.data.error });
+    } else if (actionData?.error) {
+      setToast({ type: "danger", text: actionData.error });
     }
-  }, [fetcher.data]);
+  }, [actionData]);
 
   const pricingPlans = [
     {
@@ -319,7 +322,7 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                <fetcher.Form method="POST" style={{ marginTop: "auto" }}>
+                <Form method="POST" style={{ marginTop: "auto" }}>
                   <input type="hidden" name="planNumber" value={p.id} />
                   <button
                     type="submit"
@@ -342,12 +345,14 @@ export default function PricingPage() {
                     {isSelected
                       ? "✓ Current Plan"
                       : isSubmitting
-                      ? "Processing..."
+                      ? p.id === 2
+                        ? "Redirecting to Shopify Billing..."
+                        : "Switching..."
                       : p.id === 2
-                      ? "Upgrade to Basic Plan"
+                      ? "Upgrade to Basic Plan ($10/mo)"
                       : "Select Free Plan"}
                   </button>
-                </fetcher.Form>
+                </Form>
               </div>
             );
           })}

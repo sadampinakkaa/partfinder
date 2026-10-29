@@ -16,11 +16,37 @@ export const billingConfig = {
     amount: 10.00,
     currencyCode: "USD",
     interval: BillingInterval.Every30Days,
+    lineItems: [
+      {
+        amount: 10.00,
+        currencyCode: "USD",
+        interval: BillingInterval.Every30Days,
+      },
+    ],
   },
   "BASIC PLAN": {
     amount: 10.00,
     currencyCode: "USD",
     interval: BillingInterval.Every30Days,
+    lineItems: [
+      {
+        amount: 10.00,
+        currencyCode: "USD",
+        interval: BillingInterval.Every30Days,
+      },
+    ],
+  },
+  "Basic Plan": {
+    amount: 10.00,
+    currencyCode: "USD",
+    interval: BillingInterval.Every30Days,
+    lineItems: [
+      {
+        amount: 10.00,
+        currencyCode: "USD",
+        interval: BillingInterval.Every30Days,
+      },
+    ],
   },
 };
 
