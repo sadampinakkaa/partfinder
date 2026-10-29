@@ -4,6 +4,7 @@ client_id = "5ec5b77b080f4bb0370b32a2630f9ec3"
 application_url = "https://partfinder.pinakkaa.com"
 embedded = true
 name = "Product Fit Finder by Pinakkaa"
+handle = "product-fit-finder-by-pinakkaa"
 
 [access_scopes]
 scopes = "read_products,read_themes,write_products"

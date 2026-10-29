@@ -64,6 +64,7 @@ const shopify = shopifyApp({
   billing: billingConfig,
   future: {
     expiringOfflineAccessTokens: true,
+    unstable_managedPricingSupport: true,
   },
   ...(process.env.SHOP_CUSTOM_DOMAIN
     ? { customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN] }

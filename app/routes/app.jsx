@@ -2,13 +2,14 @@ import { Outlet, useLoaderData, useRouteError, NavLink, useNavigation } from "re
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { AppProvider } from "@shopify/shopify-app-react-router/react";
 import { authenticate } from "../shopify.server.js";
-import { getStorePlan } from "../models/fit-finder.server.js";
+import { getStorePlan, syncStoreSubscription } from "../models/fit-finder.server.js";
 import { SkeletonTable } from "../components/Skeleton.jsx";
 
 export const loader = async ({ request }) => {
-  const { session } = await authenticate.admin(request);
+  const { admin, session } = await authenticate.admin(request);
   const shop = session.shop;
 
+  await syncStoreSubscription(admin, shop);
   const plan = await getStorePlan(shop);
   const shopPrefix = shop.split(".")[0];
 

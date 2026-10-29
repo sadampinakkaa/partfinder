@@ -512,3 +512,52 @@ export async function saveWidgetConfig(shop, data) {
     },
   });
 }
+
+/**
+ * Synchronize store subscription with Shopify App Pricing (Managed Pricing)
+ */
+export async function syncStoreSubscription(admin, shop) {
+  try {
+    const response = await admin.graphql(`
+      query getAppSubscriptions {
+        currentAppInstallation {
+          activeSubscriptions {
+            id
+            name
+            status
+            test
+          }
+        }
+      }
+    `);
+    const resData = await response.json();
+    const subs = resData?.data?.currentAppInstallation?.activeSubscriptions || [];
+    const activeSub = subs.find(
+      (s) => s.status === "ACTIVE" || s.status === "ACCEPTED",
+    );
+
+    if (
+      activeSub &&
+      (activeSub.name === "basic-plan" ||
+        activeSub.name?.toLowerCase().includes("basic"))
+    ) {
+      await updateStorePlan(shop, 2, activeSub.id, Boolean(activeSub.test));
+      return { planNumber: 2, sub: activeSub };
+    } else if (
+      activeSub &&
+      (activeSub.name === "free" ||
+        activeSub.name?.toLowerCase().includes("free"))
+    ) {
+      await updateStorePlan(shop, 1, activeSub.id, Boolean(activeSub.test));
+      return { planNumber: 1, sub: activeSub };
+    } else if (!activeSub) {
+      const current = await getStorePlan(shop);
+      if (current.planNumber === 2 && !current.test) {
+        await updateStorePlan(shop, 1, null, false);
+      }
+    }
+  } catch (err) {
+    console.log("[syncStoreSubscription] note:", err?.message || err);
+  }
+  return null;
+}
