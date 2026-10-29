@@ -13,21 +13,39 @@ export const loader = async ({ request }) => {
   const planParam = url.searchParams.get("plan");
 
   if (isPaymentSuccess && planParam) {
-    const pNum = planParam === "BASIC" ? 2 : 1;
+    const pNum = planParam === "BASIC" || planParam === "basic-plan" ? 2 : 1;
     await updateStorePlan(shop, pNum, url.searchParams.get("charge_id") || "sub_active", true);
   }
 
-  // Check Shopify active billing
+  // Check Shopify active billing ONLY to sync if real active payment exists
   try {
-    const hasBasicPlan = await billing.check({
-      plans: [PLAN_BASIC],
+    const billingCheck = await billing.check({
+      plans: [PLAN_BASIC, "basic-plan", "BASIC PLAN", "Basic Plan"],
       isTest: true,
     });
-    if (hasBasicPlan) {
-      await updateStorePlan(shop, 2);
+
+    const hasActiveSubscription = Boolean(
+      typeof billingCheck === "boolean"
+        ? billingCheck
+        : billingCheck?.hasActivePayment && billingCheck?.appSubscriptions?.length > 0,
+    );
+
+    if (hasActiveSubscription) {
+      // Confirmed active payment on Shopify
+      const activeSub = billingCheck?.appSubscriptions?.[0];
+      await updateStorePlan(shop, 2, activeSub?.id || "sub_active", true);
+    } else {
+      // No active payment on Shopify:
+      // If store is currently set to paid plan (2) but has NO active payment and wasn't manually set via dev,
+      // sync it back to Free Plan (1).
+      const current = await getStorePlan(shop);
+      if (current.planNumber === 2 && !current.test) {
+        await updateStorePlan(shop, 1, null, false);
+      }
     }
   } catch (e) {
-    // In local dev
+    // In local dev without billing
+    console.log("[Pricing loader] billing.check info:", e?.message || e);
   }
 
   const plan = await getStorePlan(shop);
@@ -46,6 +64,27 @@ export const action = async ({ request }) => {
   const planNumber = parseInt(formData.get("planNumber"), 10);
 
   if (planNumber === 1) {
+    // Attempt to cancel any active Shopify app subscription
+    try {
+      const billingCheck = await billing.check({
+        plans: [PLAN_BASIC, "basic-plan", "BASIC PLAN", "Basic Plan"],
+        isTest: true,
+      });
+      if (billingCheck?.appSubscriptions?.length > 0) {
+        for (const sub of billingCheck.appSubscriptions) {
+          if (sub?.id) {
+            await billing.cancel({
+              subscriptionId: sub.id,
+              isTest: true,
+              prorate: true,
+            });
+          }
+        }
+      }
+    } catch (cancelErr) {
+      console.log("[Pricing action] Cancel error:", cancelErr?.message || cancelErr);
+    }
+
     // Downgrade / switch to Free Plan
     await updateStorePlan(shop, 1, null, false);
     return { success: true, planNumber: 1, message: "Switched to Free Plan." };
@@ -53,7 +92,7 @@ export const action = async ({ request }) => {
 
   if (planNumber === 2) {
     // BASIC PLAN ($10 / month)
-    const returnUrl = `${process.env.SHOPIFY_APP_URL || "https://" + shop}/app/pricing?subscribed=true&plan=BASIC`;
+    const returnUrl = `${process.env.SHOPIFY_APP_URL || "https://" + shop}/app/pricing?subscribed=true&plan=basic-plan`;
 
     try {
       await billing.request({
@@ -72,7 +111,7 @@ export const action = async ({ request }) => {
       return {
         success: true,
         planNumber: 2,
-        message: "You have successfully selected BASIC PLAN! (Development Mode Active)",
+        message: "You have selected Basic Plan! (Development Mode Active)",
       };
     }
 
@@ -124,7 +163,7 @@ export default function PricingPage() {
     },
     {
       id: 2,
-      name: "PRO PLAN",
+      name: "Basic Plan",
       displayPrice: "$10",
       period: "/ month",
       maxLimit: "Unlimited",
@@ -166,7 +205,7 @@ export default function PricingPage() {
               Plan Upgraded Successfully!
             </h2>
             <p style={{ margin: "0 0 24px 0", color: "#334155", fontSize: "0.95rem", fontWeight: 600 }}>
-              Your store is now equipped with <strong>{plan.title}</strong> features and unlimited fitment capacity.
+              Your store is now equipped with <strong>Basic Plan</strong> features and unlimited fitment capacity.
             </p>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <button
@@ -195,7 +234,7 @@ export default function PricingPage() {
             }`}
             style={{ fontSize: "0.85rem", padding: "4px 14px", verticalAlign: "middle" }}
           >
-            {plan.title}
+            {plan.planNumber === 2 ? "BASIC PLAN" : "FREE PLAN"}
           </span>
         </p>
       </div>
@@ -304,7 +343,9 @@ export default function PricingPage() {
                       ? "✓ Current Plan"
                       : isSubmitting
                       ? "Processing..."
-                      : `Select ${p.name}`}
+                      : p.id === 2
+                      ? "Upgrade to Basic Plan"
+                      : "Select Free Plan"}
                   </button>
                 </fetcher.Form>
               </div>

@@ -26,7 +26,7 @@ export async function getStorePlan(shop) {
   return {
     planNumber: access.plan,
     planId: access.planId || "",
-    title: isPaid ? "BASIC PLAN" : "Free Plan",
+    title: isPaid ? "BASIC PLAN" : "FREE PLAN",
     maxLimit: isPaid ? PREMIUM_PLAN_LIMIT : BASIC_PLAN_LIMIT,
     test: access.test,
   };

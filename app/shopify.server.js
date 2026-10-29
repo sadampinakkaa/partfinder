@@ -9,10 +9,15 @@ import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prism
 import prisma from "./db.server.js";
 
 export const PLAN_FREE = "Free Plan";
-export const PLAN_BASIC = "BASIC PLAN";
+export const PLAN_BASIC = "basic-plan";
 
 export const billingConfig = {
   [PLAN_BASIC]: {
+    amount: 10.00,
+    currencyCode: "USD",
+    interval: BillingInterval.Every30Days,
+  },
+  "BASIC PLAN": {
     amount: 10.00,
     currencyCode: "USD",
     interval: BillingInterval.Every30Days,
